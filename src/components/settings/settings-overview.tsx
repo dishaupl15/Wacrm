@@ -186,6 +186,11 @@ export function SettingsOverview({
             }`,
     },
     {
+      section: 'api',
+      loading: false,
+      subtitle: tSections('api'),
+    },
+    {
       section: 'templates',
       loading: countsLoading,
       subtitle:
