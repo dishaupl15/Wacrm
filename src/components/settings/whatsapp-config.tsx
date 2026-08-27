@@ -23,6 +23,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Switch } from '@/components/ui/switch';
+import { cn } from '@/lib/utils';
 import { SettingsPanelHead } from './settings-panel-head';
 import {
   Accordion,
@@ -476,12 +477,16 @@ export function WhatsAppConfig() {
         )}
 
         {/* Connection Status */}
-        <Alert className="bg-card border-border">
+        <Alert className={cn("border", connectionStatus === 'connected' ? "border-primary/30 bg-primary/8" : "border-border bg-card")}> 
           <div className="flex items-center gap-2">
             {connectionStatus === 'connected' ? (
-              <CheckCircle2 className="size-4 text-primary" />
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/12">
+                <CheckCircle2 className="size-4 text-primary" />
+              </div>
             ) : (
-              <XCircle className="size-4 text-red-500" />
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-red-500/10">
+                <XCircle className="size-4 text-red-400" />
+              </div>
             )}
             <AlertTitle className="text-foreground mb-0">
               {connectionStatus === 'connected' ? t('credentialsValid') : t('notConnected')}
@@ -599,7 +604,7 @@ export function WhatsAppConfig() {
         )}
 
         {/* API Credentials */}
-        <Card>
+        <Card className="bg-[#101714]">
           <CardHeader>
             <CardTitle className="text-foreground">{t('apiCredentialsTitle')}</CardTitle>
             <CardDescription className="text-muted-foreground">
@@ -608,27 +613,27 @@ export function WhatsAppConfig() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label className="text-muted-foreground">{t('phoneNumberId')}</Label>
+              <Label className="text-sm font-medium text-muted-foreground">{t('phoneNumberId')}</Label>
               <Input
                 placeholder="e.g. 100234567890123"
                 value={phoneNumberId}
                 onChange={(e) => setPhoneNumberId(e.target.value)}
-                className="bg-muted border-border text-foreground placeholder:text-muted-foreground"
+                className="h-11 rounded-xl border border-border bg-[#121a18] text-foreground placeholder:text-muted-foreground focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/15"
               />
             </div>
 
             <div className="space-y-2">
-              <Label className="text-muted-foreground">{t('wabaId')}</Label>
+              <Label className="text-sm font-medium text-muted-foreground">{t('wabaId')}</Label>
               <Input
                 placeholder="e.g. 100234567890456"
                 value={wabaId}
                 onChange={(e) => setWabaId(e.target.value)}
-                className="bg-muted border-border text-foreground placeholder:text-muted-foreground"
+                className="h-11 rounded-xl border border-border bg-[#121a18] text-foreground placeholder:text-muted-foreground focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/15"
               />
             </div>
 
             <div className="space-y-2">
-              <Label className="text-muted-foreground">{t('accessToken')}</Label>
+              <Label className="text-sm font-medium text-muted-foreground">{t('accessToken')}</Label>
               <div className="relative">
                 <Input
                   type={showToken ? 'text' : 'password'}
@@ -644,12 +649,12 @@ export function WhatsAppConfig() {
                       setTokenEdited(true);
                     }
                   }}
-                  className="bg-muted border-border text-foreground placeholder:text-muted-foreground pr-10"
+                  className="h-11 rounded-xl border border-border bg-[#121a18] pr-11 text-foreground placeholder:text-muted-foreground focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/15"
                 />
                 <button
                   type="button"
                   onClick={() => setShowToken(!showToken)}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground"
                 >
                   {showToken ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
                 </button>
@@ -662,12 +667,12 @@ export function WhatsAppConfig() {
             </div>
 
             <div className="space-y-2">
-              <Label className="text-muted-foreground">{t('webhookVerifyToken')}</Label>
+              <Label className="text-sm font-medium text-muted-foreground">{t('webhookVerifyToken')}</Label>
               <Input
                 placeholder={t('webhookVerifyTokenPlaceholder')}
                 value={verifyToken}
                 onChange={(e) => setVerifyToken(e.target.value)}
-                className="bg-muted border-border text-foreground placeholder:text-muted-foreground"
+                className="h-11 rounded-xl border border-border bg-[#121a18] text-foreground placeholder:text-muted-foreground focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/15"
               />
               <p className="text-xs text-muted-foreground">
                 {t('webhookVerifyTokenHint')}
@@ -698,7 +703,7 @@ export function WhatsAppConfig() {
         </Card>
 
         {/* Webhook URL */}
-        <Card>
+        <Card className="bg-[#101714]">
           <CardHeader>
             <CardTitle className="text-foreground">{t('webhookTitle')}</CardTitle>
             <CardDescription className="text-muted-foreground">
@@ -707,18 +712,18 @@ export function WhatsAppConfig() {
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
-              <Label className="text-muted-foreground">{t('webhookUrl')}</Label>
+              <Label className="text-sm font-medium text-muted-foreground">{t('webhookUrl')}</Label>
               <div className="flex gap-2">
                 <Input
                   readOnly
                   value={webhookUrl}
-                  className="bg-muted border-border text-muted-foreground font-mono text-sm"
+                  className="h-11 rounded-xl border border-border bg-[#121a18] font-mono text-sm text-muted-foreground"
                 />
                 <Button
                   variant="outline"
                   size="icon"
                   onClick={handleCopyWebhookUrl}
-                  className="shrink-0 border-border text-muted-foreground hover:text-foreground hover:bg-muted"
+                  className="h-11 w-11 shrink-0 border-border text-muted-foreground hover:text-foreground hover:bg-muted"
                 >
                   <Copy className="size-4" />
                 </Button>

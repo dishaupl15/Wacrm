@@ -15,7 +15,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { MessageSquare, UsersRound } from "lucide-react";
+import Image from "next/image";
 
 // `useSearchParams` opts the component out of static prerendering
 // unless it sits under a Suspense boundary. We split the form into
@@ -78,20 +78,22 @@ function LoginPageInner() {
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <Card className="w-full max-w-md border-border bg-card">
         <CardHeader className="items-center text-center">
-          <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
-            {inviteToken ? (
-              <UsersRound className="h-6 w-6 text-primary" />
-            ) : (
-              <MessageSquare className="h-6 w-6 text-primary" />
-            )}
+          <div className="mb-2 flex h-16 w-16 items-center justify-center overflow-hidden rounded-2xl border border-primary/20 bg-primary/10 shadow-[0_16px_32px_rgba(37,211,102,0.18)]">
+            <Image
+              src="/pratap-ai-logo.png"
+              alt="Pratap AI Innovations"
+              width={64}
+              height={64}
+              className="h-full w-full object-cover"
+            />
           </div>
           <CardTitle className="text-xl text-foreground">
-            {inviteToken ? t('titleAccept') : t('titleWelcome')}
+            {inviteToken ? t('titleAccept') : "Pratap AI Innovations"}
           </CardTitle>
           <CardDescription className="text-muted-foreground">
             {inviteToken
               ? t('descAccept')
-              : t('descWelcome')}
+              : "Welcome back. Continue to your workspace."}
           </CardDescription>
         </CardHeader>
         <CardContent>

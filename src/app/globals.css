@@ -88,30 +88,30 @@
 
 :root,
 html[data-mode="dark"] {
-  --background: oklch(0.13 0.01 260);
+  --background: oklch(0.12 0.018 165);
   --foreground: oklch(0.985 0 0);
-  --card: oklch(0.18 0.01 260);
-  --card-2: oklch(0.205 0.01 260);
+  --card: oklch(0.16 0.018 165);
+  --card-2: oklch(0.195 0.02 165);
   --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.18 0.01 260);
+  --popover: oklch(0.17 0.018 165);
   --popover-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.22 0.01 260);
+  --secondary: oklch(0.21 0.018 165);
   --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.22 0.01 260);
-  --muted-foreground: oklch(0.65 0.01 260);
-  --accent: oklch(0.22 0.01 260);
+  --muted: oklch(0.21 0.018 165);
+  --muted-foreground: oklch(0.68 0.012 165);
+  --accent: oklch(0.23 0.025 165);
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.28 0.01 260);
-  --input: oklch(0.28 0.01 260);
+  --border: oklch(0.29 0.022 165);
+  --input: oklch(0.29 0.022 165);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
   --radius: 0.625rem;
-  --sidebar: oklch(0.16 0.01 260);
+  --sidebar: oklch(0.105 0.02 165);
   --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.22 0.01 260);
+  --sidebar-accent: oklch(0.19 0.025 165);
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(0.28 0.01 260);
 }
@@ -223,8 +223,25 @@ html[data-theme="rose"] {
   }
   body {
     @apply bg-background text-foreground;
+    background-image: radial-gradient(circle at 10% 0%, color-mix(in oklab, var(--primary) 7%, transparent), transparent 28rem);
+    background-attachment: fixed;
   }
   html {
     @apply font-sans;
   }
+}
+
+::selection {
+  background: color-mix(in oklab, var(--primary) 35%, transparent);
+  color: var(--foreground);
+}
+
+* {
+  scrollbar-color: color-mix(in oklab, var(--muted-foreground) 35%, transparent) transparent;
+  scrollbar-width: thin;
+}
+
+[data-slot="card"] {
+  border: 1px solid color-mix(in oklab, var(--border) 78%, transparent);
+  box-shadow: 0 14px 34px color-mix(in oklab, black 14%, transparent);
 }

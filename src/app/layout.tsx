@@ -22,16 +22,16 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "wacrm",
-    template: "%s — wacrm",
+    default: "Pratap AI Innovations",
+    template: "%s — Pratap AI Innovations",
   },
-  description: "Self-hostable CRM template for WhatsApp.",
+  description: "Pratap AI Innovations CRM workspace for WhatsApp operations and customer engagement.",
   robots: {
     index: false,
     follow: false,
   },
   icons: {
-    icon: [{ url: "/icon" }],
+    icon: [{ url: "/pratap-ai-logo.png" }],
   },
   formatDetection: {
     email: false,

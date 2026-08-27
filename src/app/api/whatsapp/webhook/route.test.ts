@@ -202,7 +202,7 @@ vi.mock('@/lib/webhooks/deliver', () => ({
   dispatchWebhookEvent: h.dispatchWebhookEvent,
 }))
 
-import { POST } from './route'
+import { GET, POST } from './route'
 import { getMediaUrl, downloadMedia } from '@/lib/whatsapp/meta-api'
 
 const mockGetMediaUrl = vi.mocked(getMediaUrl)
@@ -280,6 +280,43 @@ beforeEach(() => {
         resolve()
       }, 0)
     })
+  })
+  process.env.META_WEBHOOK_VERIFY_TOKEN = 'wacrm_webhook_key_0123456'
+})
+
+describe('webhook verification GET', () => {
+  it('accepts the Meta subscribe challenge when the env token matches', async () => {
+    const response = await GET(
+      new Request(
+        'https://example.com/api/whatsapp/webhook?hub.mode=subscribe&hub.challenge=446505098&hub.verify_token=wacrm_webhook_key_0123456',
+      ),
+    )
+
+    expect(response.status).toBe(200)
+    expect(await response.text()).toBe('446505098')
+  })
+
+  it('accepts underscored Meta aliases and trims the configured token', async () => {
+    process.env.META_WEBHOOK_VERIFY_TOKEN = ' wacrm_webhook_key_0123456 '
+
+    const response = await GET(
+      new Request(
+        'https://example.com/api/whatsapp/webhook?hub_mode=subscribe&hub_challenge=446505098&hub_verify_token=wacrm_webhook_key_0123456',
+      ),
+    )
+
+    expect(response.status).toBe(200)
+    expect(await response.text()).toBe('446505098')
+  })
+
+  it('rejects a mismatched verify token with 403', async () => {
+    const response = await GET(
+      new Request(
+        'https://example.com/api/whatsapp/webhook?hub.mode=subscribe&hub.challenge=446505098&hub.verify_token=wrong-token',
+      ),
+    )
+
+    expect(response.status).toBe(403)
   })
 })
 
