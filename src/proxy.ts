@@ -27,7 +27,14 @@ export async function proxy(request: NextRequest) {
     }
   )
 
-  const { data: { user } } = await supabase.auth.getUser()
+  let user: { id: string } | null = null
+  try {
+    const result = await supabase.auth.getUser()
+    user = result.data?.user ?? null
+  } catch (error) {
+    console.error('[proxy] Supabase auth check failed:', error)
+    user = null
+  }
 
   const withRefreshedCookies = <T extends NextResponse>(response: T): T => {
     supabaseResponse.cookies.getAll().forEach((cookie) => {

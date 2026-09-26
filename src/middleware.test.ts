@@ -110,4 +110,25 @@ describe("middleware — refreshed auth cookies survive redirects", () => {
     expect(res.headers.get("location")).toBeNull();
     expect(res.cookies.get(ROTATED.name)?.value).toBe(ROTATED.value);
   });
+
+  it("treats a Supabase timeout as an unauthenticated user instead of crashing", async () => {
+    vi.doMock("@supabase/ssr", () => ({
+      createServerClient: () => ({
+        auth: {
+          getUser: async () => {
+            throw new Error("Connect Timeout Error");
+          },
+        },
+      }),
+    }));
+
+    const { proxy: timeoutMiddleware } = await import("./proxy");
+
+    const res = await timeoutMiddleware(
+      new NextRequest("https://app.test/dashboard"),
+    );
+
+    expect(res.status).toBe(307);
+    expect(res.headers.get("location")).toContain("/login");
+  });
 });

@@ -290,13 +290,11 @@
       "addNotePlaceholder": "Add a note..."
     },
     "aiBanner": {
-      "pausedTitle": "AI assistant is paused here",
-      "activeText": "AI assistant is replying automatically",
-      "takeOver": "Take over",
-      "resume": "Resume AI",
-      "tookOver": "You’ve taken over this chat.",
-      "resumed": "AI resumed.",
-      "updateError": "Couldn’t update the AI assistant.",
+      "handoffOff": "Human Handoff: OFF",
+      "handoffOn": "Human Handoff: ON",
+      "handoffEnabled": "Human Handoff is ON.",
+      "handoffDisabled": "Human Handoff is OFF.",
+      "updateError": "Couldn’t update Human Handoff.",
       "networkError": "Couldn’t reach the server."
     }
   },

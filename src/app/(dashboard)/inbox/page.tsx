@@ -554,6 +554,24 @@ function InboxPageInner() {
     [activeConversation]
   );
 
+  const handleHandoffChange = useCallback(
+    (conversationId: string, disabled: boolean) => {
+      setConversations((prev) =>
+        prev.map((c) =>
+          c.id === conversationId
+            ? { ...c, ai_autoreply_disabled: disabled }
+            : c
+        )
+      );
+      if (activeConversation?.id === conversationId) {
+        setActiveConversation((prev) =>
+          prev ? { ...prev, ai_autoreply_disabled: disabled } : prev
+        );
+      }
+    },
+    [activeConversation]
+  );
+
   // On mobile (<lg) we show a SINGLE pane — either the list or the
   // thread — rather than cramming both side-by-side. Selecting a
   // conversation slides the thread in; the thread's back button pops
@@ -618,6 +636,7 @@ function InboxPageInner() {
             onUpdateMessage={handleUpdateMessage}
             onStatusChange={handleStatusChange}
             onAssignChange={handleAssignChange}
+            onHandoffChange={handleHandoffChange}
             onBack={handleCloseConversation}
             resyncToken={resyncToken}
             onRefresh={handleManualRefresh}

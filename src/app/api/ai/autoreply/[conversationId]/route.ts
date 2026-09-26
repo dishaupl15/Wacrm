@@ -7,13 +7,12 @@ type Params = { params: Promise<{ conversationId: string }> }
 /**
  * POST /api/ai/autoreply/[conversationId]  (agent+)
  *
- * Toggle the AI auto-reply bot for one conversation from the inbox — the
- * "Take over" / "Resume AI" banner.
+ * Toggle Human Handoff for one conversation from the inbox.
  *
  * Body: { paused: boolean, assign_to_me?: boolean }
  *   - paused: true  → pause the bot here (a human is taking over). When
  *                     `assign_to_me` is set, also assign the thread to the
- *                     caller (the usual "Take over" flow). Assignment
+ *                     caller. Assignment
  *                     fires the `on_conversation_assigned` trigger.
  *   - paused: false → hand the thread back to the bot: clear the pause,
  *                     reset the per-conversation reply count so it gets
@@ -72,7 +71,7 @@ export async function POST(request: Request, { params }: Params) {
       // just the caller's own: the auto-reply eligibility gate stands
       // down whenever a human is assigned, so leaving a stale assignee
       // (e.g. the agent a prior handoff routed to) would silently keep
-      // the bot muted and make "Resume AI" a no-op. This is the explicit
+      // the bot muted and make turning Human Handoff off a no-op. This is the explicit
       // choice to let the bot own the thread again.
       update.assigned_agent_id = null
       // Give the bot a fresh reply budget on this thread. This is a

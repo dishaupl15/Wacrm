@@ -73,6 +73,7 @@ interface MessageThreadProps {
     conversationId: string,
     assignedAgentId: string | null,
   ) => void;
+  onHandoffChange: (conversationId: string, disabled: boolean) => void;
   /**
    * On mobile, the thread is shown full-screen with the conversation list
    * hidden. This callback lets the page deselect the active conversation
@@ -158,6 +159,7 @@ export function MessageThread({
   onUpdateMessage,
   onStatusChange,
   onAssignChange,
+  onHandoffChange,
   onBack,
   resyncToken = 0,
   onRefresh,
@@ -902,8 +904,8 @@ export function MessageThread({
     <div className={cn("flex min-w-0 flex-1 flex-col", DOODLE_BG_CLASSES)}>
       {/* Header — solid card surface sits on top of the doodle so the
           name/avatar/dropdowns stay legible. */}
-      <div className="flex items-center justify-between gap-2 border-b border-border/70 bg-card/90 px-3 py-3 backdrop-blur-sm sm:px-4">
-        <div className="flex min-w-0 items-center gap-2 sm:gap-3">
+      <div className="flex flex-wrap items-center gap-2 border-b border-border/70 bg-card/90 px-3 py-3 backdrop-blur-sm sm:px-4">
+        <div className="flex min-w-0 flex-1 items-center gap-2 sm:gap-3">
           {/* Back-to-list button — mobile only. Hidden on lg+ where the
               conversation list is always visible next to the thread. */}
           {onBack && (
@@ -937,7 +939,7 @@ export function MessageThread({
           </Badge>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex w-full flex-wrap items-center justify-end gap-1.5 sm:w-auto sm:gap-2">
           {/* Contact-panel toggle — desktop only. The contact sidebar
               eats a chunk of horizontal width that crowds the thread on
               smaller laptops; this lets agents reclaim it when they just
@@ -1076,6 +1078,19 @@ export function MessageThread({
               )}
             </DropdownMenuContent>
           </DropdownMenu>
+
+          <AiThreadBanner
+            conversationId={conversation.id}
+            disabled={conversation.ai_autoreply_disabled ?? false}
+            handoffSummary={conversation.ai_handoff_summary}
+            currentUserId={user?.id}
+            onChange={(patch) => {
+              onHandoffChange(conversation.id, patch.ai_autoreply_disabled);
+              if ("assigned_agent_id" in patch) {
+                onAssignChange(conversation.id, patch.assigned_agent_id ?? null);
+              }
+            }}
+          />
         </div>
       </div>
 
@@ -1155,22 +1170,6 @@ export function MessageThread({
           </div>
         )}
       </div>
-
-      {/* AI auto-reply banner — take over an active bot, or resume it
-          after a handoff. Renders nothing unless the account has
-          auto-reply configured. */}
-      <AiThreadBanner
-        conversationId={conversation.id}
-        disabled={conversation.ai_autoreply_disabled ?? false}
-        handoffSummary={conversation.ai_handoff_summary}
-        assignedAgentId={assignedAgentId}
-        currentUserId={user?.id}
-        onChange={(patch) => {
-          if ("assigned_agent_id" in patch) {
-            onAssignChange(conversation.id, patch.assigned_agent_id ?? null);
-          }
-        }}
-      />
 
       {/* Composer */}
       <MessageComposer
