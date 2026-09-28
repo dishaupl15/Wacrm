@@ -8,14 +8,7 @@ import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import Image from "next/image";
+import { TriangleAlert, Headset } from "lucide-react";
 
 // `useSearchParams` opts the component out of static prerendering
 // unless it sits under a Suspense boundary. We split the form into
@@ -75,97 +68,157 @@ function LoginPageInner() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <Card className="w-full max-w-md border-border bg-card">
-        <CardHeader className="items-center text-center">
-          <div className="mb-2 flex h-16 w-16 items-center justify-center overflow-hidden rounded-2xl border border-primary/20 bg-primary/10 shadow-[0_16px_32px_rgba(37,211,102,0.18)]">
-            <Image
-              src="/pratap-ai-logo.png"
-              alt="Pratap AI Innovations"
-              width={64}
-              height={64}
-              className="h-full w-full object-cover"
-            />
+    <div
+      className="flex min-h-screen items-center justify-center px-4 py-12"
+      style={{ backgroundColor: "oklch(0.97 0.003 160)" }}
+    >
+      <div className="w-full max-w-[400px]">
+
+        {/* Brand mark */}
+        <div className="mb-8 flex flex-col items-center gap-3">
+          <div
+            className="flex h-12 w-12 items-center justify-center rounded-2xl shadow-sm"
+            style={{
+              backgroundColor: "oklch(0.62 0.16 162)",
+              boxShadow: "0 1px 3px oklch(0.62 0.16 162 / 0.25), 0 0 0 1px oklch(0.62 0.16 162 / 0.15)",
+            }}
+          >
+            <Headset className="h-6 w-6 text-white" strokeWidth={2} />
           </div>
-          <CardTitle className="text-xl text-foreground">
-            {inviteToken ? t('titleAccept') : "Pratap AI Innovations"}
-          </CardTitle>
-          <CardDescription className="text-muted-foreground">
-            {inviteToken
-              ? t('descAccept')
-              : "Welcome back. Continue to your workspace."}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleLogin} className="flex flex-col gap-4">
+          <div className="text-center">
+            <h1 className="text-2xl font-semibold tracking-tight" style={{ color: "oklch(0.2 0.01 260)" }}>
+              FrontDesk
+            </h1>
+            <p className="mt-1 text-sm" style={{ color: "oklch(0.52 0.015 260)" }}>
+              {inviteToken
+                ? t("descAccept")
+                : "Welcome back. Sign in to continue to your workspace."}
+            </p>
+          </div>
+        </div>
+
+        {/* Card */}
+        <div
+          className="rounded-2xl border px-8 py-8 shadow-sm"
+          style={{
+            backgroundColor: "white",
+            borderColor: "oklch(0.922 0.004 260)",
+            boxShadow: "0 1px 4px oklch(0 0 0 / 0.06), 0 4px 16px oklch(0 0 0 / 0.04)",
+          }}
+        >
+          <form onSubmit={handleLogin} className="flex flex-col gap-5">
+
+            {/* Error state */}
             {error && (
-              <div className="rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-400">
-                {error}
+              <div
+                className="flex items-start gap-2.5 rounded-lg border px-3.5 py-3 text-sm"
+                style={{
+                  borderColor: "oklch(0.577 0.245 27.325 / 0.25)",
+                  backgroundColor: "oklch(0.577 0.245 27.325 / 0.06)",
+                  color: "oklch(0.45 0.18 27)",
+                }}
+              >
+                <TriangleAlert className="mt-px h-4 w-4 shrink-0" strokeWidth={2} />
+                <span>{error}</span>
               </div>
             )}
 
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="email" className="text-muted-foreground">
-                {t('emailLabel')}
+            {/* Email */}
+            <div className="flex flex-col gap-1.5">
+              <Label
+                htmlFor="email"
+                className="text-sm font-medium"
+                style={{ color: "oklch(0.3 0.01 260)" }}
+              >
+                {t("emailLabel")}
               </Label>
               <Input
                 id="email"
                 type="email"
-                placeholder={t('emailPlaceholder')}
+                placeholder={t("emailPlaceholder")}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="border-border bg-muted text-foreground placeholder:text-muted-foreground focus-visible:border-primary focus-visible:ring-primary/20"
+                className="h-10 rounded-lg border bg-white text-sm transition-colors placeholder:text-[oklch(0.65_0.01_260)] focus-visible:ring-2"
+                style={
+                  {
+                    borderColor: "oklch(0.88 0.005 260)",
+                    "--tw-ring-color": "oklch(0.62 0.16 162 / 0.2)",
+                  } as React.CSSProperties
+                }
               />
             </div>
 
-            <div className="flex flex-col gap-2">
+            {/* Password */}
+            <div className="flex flex-col gap-1.5">
               <div className="flex items-center justify-between">
-                <Label htmlFor="password" className="text-muted-foreground">
-                  {t('passwordLabel')}
+                <Label
+                  htmlFor="password"
+                  className="text-sm font-medium"
+                  style={{ color: "oklch(0.3 0.01 260)" }}
+                >
+                  {t("passwordLabel")}
                 </Label>
                 <Link
                   href="/forgot-password"
-                  className="text-sm text-primary hover:text-primary/80"
+                  className="text-xs font-medium transition-colors hover:underline"
+                  style={{ color: "oklch(0.52 0.14 162)" }}
                 >
-                  {t('forgotPassword')}
+                  {t("forgotPassword")}
                 </Link>
               </div>
               <Input
                 id="password"
                 type="password"
-                placeholder={t('passwordPlaceholder')}
+                placeholder={t("passwordPlaceholder")}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="border-border bg-muted text-foreground placeholder:text-muted-foreground focus-visible:border-primary focus-visible:ring-primary/20"
+                className="h-10 rounded-lg border bg-white text-sm transition-colors placeholder:text-[oklch(0.65_0.01_260)] focus-visible:ring-2"
+                style={
+                  {
+                    borderColor: "oklch(0.88 0.005 260)",
+                    "--tw-ring-color": "oklch(0.62 0.16 162 / 0.2)",
+                  } as React.CSSProperties
+                }
               />
             </div>
 
+            {/* Submit */}
             <Button
               type="submit"
               disabled={loading}
-              className="mt-2 h-10 w-full bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
+              className="mt-1 h-10 w-full rounded-lg text-sm font-semibold text-white transition-all disabled:opacity-60"
+              style={{
+                backgroundColor: loading
+                  ? "oklch(0.55 0.14 162)"
+                  : "oklch(0.62 0.16 162)",
+              }}
             >
-              {loading ? t('signingIn') : t('signIn')}
+              {loading ? t("signingIn") : t("signIn")}
             </Button>
           </form>
+        </div>
 
-          <p className="mt-6 text-center text-sm text-muted-foreground">
-            {t('noAccount')}{" "}
-            <Link
-              href={
-                inviteToken
-                  ? `/signup?invite=${encodeURIComponent(inviteToken)}`
-                  : "/signup"
-              }
-              className="text-primary hover:text-primary/80"
-            >
-              {t('createAccount')}
-            </Link>
-          </p>
-        </CardContent>
-      </Card>
+        {/* Footer link */}
+        <p
+          className="mt-5 text-center text-sm"
+          style={{ color: "oklch(0.52 0.015 260)" }}
+        >
+          {t("noAccount")}{" "}
+          <Link
+            href={
+              inviteToken
+                ? `/signup?invite=${encodeURIComponent(inviteToken)}`
+                : "/signup"
+            }
+            className="font-medium transition-colors hover:underline"
+            style={{ color: "oklch(0.52 0.14 162)" }}
+          >
+            {t("createAccount")}
+          </Link>
+        </p>
+      </div>
     </div>
   );
 }
