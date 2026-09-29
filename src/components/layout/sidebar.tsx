@@ -12,6 +12,7 @@ import {
   Bot,
   Crown,
   GitBranch,
+  Headset,
   LayoutDashboard,
   LogOut,
   MessageSquare,
@@ -176,7 +177,7 @@ export function Sidebar({ open = false, onClose }: SidebarProps) {
       <aside
         className={cn(
           // Mobile: fixed drawer that slides in from the left.
-          "fixed inset-y-0 left-0 z-40 flex h-full w-64 flex-col border-r border-border/70 bg-sidebar",
+          "fixed inset-y-0 left-0 z-40 flex h-full w-64 flex-col border-r border-border bg-sidebar",
           "transition-transform duration-200 ease-out will-change-transform",
           open ? "translate-x-0" : "-translate-x-full",
           // Desktop: static, always visible — reset all the mobile framing.
@@ -186,10 +187,10 @@ export function Sidebar({ open = false, onClose }: SidebarProps) {
       >
         {/* Logo row. On mobile we put a close button here; on desktop the
             close button is hidden since the sidebar is always-visible. */}
-        <div className="flex h-16 shrink-0 items-center justify-between gap-2 border-b border-border/70 px-5">
+        <div className="flex h-16 shrink-0 items-center justify-between gap-2 border-b border-border px-5">
           <Link href="/dashboard" className="flex items-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-lg shadow-primary/20">
-              <MessageSquare className="h-4 w-4" />
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm shadow-primary/20">
+              <Headset className="h-4 w-4" strokeWidth={2} />
             </div>
             <span className="text-sm font-bold tracking-tight text-foreground">
               {t("title")}
@@ -268,7 +269,7 @@ export function Sidebar({ open = false, onClose }: SidebarProps) {
             })}
           </ul>
 
-          <div className="my-5 border-t border-border/70" />
+          <div className="my-5 border-t border-border" />
 
           <ul className="flex flex-col gap-1">
             {bottomNavItems.map((item) => {
@@ -294,7 +295,7 @@ export function Sidebar({ open = false, onClose }: SidebarProps) {
         </nav>
 
         {/* User section */}
-        <div className="shrink-0 border-t border-border/70 p-3">
+        <div className="shrink-0 border-t border-border p-3">
           {/* Account name display — surfaced only when the account
               name differs from the user's own name (see
               `showAccountStrip`). For a default solo account the two

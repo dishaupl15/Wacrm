@@ -43,7 +43,7 @@ export const MODES = ["light", "dark"] as const;
 
 export type Mode = (typeof MODES)[number];
 
-export const DEFAULT_MODE: Mode = "dark";
+export const DEFAULT_MODE: Mode = "light";
 
 export const MODE_STORAGE_KEY = "wacrm.mode";
 
@@ -77,7 +77,8 @@ export const THEMES: ReadonlyArray<ThemeMeta> = [
     id: "emerald",
     name: "Emerald",
     tagline: "Growth-coded, nods at messaging without copying WhatsApp green.",
-    swatch: "oklch(0.62 0.16 162)",
+    // Kept in sync with --primary in globals.css html[data-theme="emerald"]
+    swatch: "oklch(0.56 0.14 162)",
   },
   {
     id: "cobalt",

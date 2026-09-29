@@ -70,26 +70,43 @@ function LoginPageInner() {
   return (
     <div
       className="flex min-h-screen items-center justify-center px-4 py-12"
-      style={{ backgroundColor: "oklch(0.97 0.003 160)" }}
+      style={{
+        // Slightly darker than pure off-white so the white card
+        // visibly lifts above the canvas. Carries a faint warm-green
+        // tint to echo the brand without saturating the page.
+        backgroundColor: "oklch(0.945 0.008 158)",
+      }}
     >
       <div className="w-full max-w-[400px]">
 
         {/* Brand mark */}
         <div className="mb-8 flex flex-col items-center gap-3">
           <div
-            className="flex h-12 w-12 items-center justify-center rounded-2xl shadow-sm"
+            className="flex h-12 w-12 items-center justify-center rounded-2xl"
             style={{
-              backgroundColor: "oklch(0.62 0.16 162)",
-              boxShadow: "0 1px 3px oklch(0.62 0.16 162 / 0.25), 0 0 0 1px oklch(0.62 0.16 162 / 0.15)",
+              // Refined emerald: deeper and less saturated than the
+              // previous 0.62/0.16. Reads as trustworthy against white
+              // rather than fresh/bright.
+              backgroundColor: "oklch(0.56 0.14 162)",
+              boxShadow:
+                "0 1px 4px oklch(0.56 0.14 162 / 0.30), 0 0 0 1px oklch(0.56 0.14 162 / 0.18)",
             }}
           >
             <Headset className="h-6 w-6 text-white" strokeWidth={2} />
           </div>
           <div className="text-center">
-            <h1 className="text-2xl font-semibold tracking-tight" style={{ color: "oklch(0.2 0.01 260)" }}>
+            {/* Heading: near-black, rich, unmistakably primary text */}
+            <h1
+              className="text-2xl font-semibold tracking-tight"
+              style={{ color: "oklch(0.16 0.012 260)" }}
+            >
               FrontDesk
             </h1>
-            <p className="mt-1 text-sm" style={{ color: "oklch(0.52 0.015 260)" }}>
+            {/* Subtitle: clearly secondary but not washed-out */}
+            <p
+              className="mt-1 text-sm leading-relaxed"
+              style={{ color: "oklch(0.44 0.014 260)" }}
+            >
               {inviteToken
                 ? t("descAccept")
                 : "Welcome back. Sign in to continue to your workspace."}
@@ -99,11 +116,14 @@ function LoginPageInner() {
 
         {/* Card */}
         <div
-          className="rounded-2xl border px-8 py-8 shadow-sm"
+          className="rounded-2xl border px-8 py-8"
           style={{
             backgroundColor: "white",
-            borderColor: "oklch(0.922 0.004 260)",
-            boxShadow: "0 1px 4px oklch(0 0 0 / 0.06), 0 4px 16px oklch(0 0 0 / 0.04)",
+            // Slightly more defined border than before so the card
+            // edge reads cleanly against the tinted background.
+            borderColor: "oklch(0.90 0.006 260)",
+            boxShadow:
+              "0 1px 3px oklch(0 0 0 / 0.07), 0 4px 16px oklch(0 0 0 / 0.05)",
           }}
         >
           <form onSubmit={handleLogin} className="flex flex-col gap-5">
@@ -113,12 +133,16 @@ function LoginPageInner() {
               <div
                 className="flex items-start gap-2.5 rounded-lg border px-3.5 py-3 text-sm"
                 style={{
-                  borderColor: "oklch(0.577 0.245 27.325 / 0.25)",
-                  backgroundColor: "oklch(0.577 0.245 27.325 / 0.06)",
-                  color: "oklch(0.45 0.18 27)",
+                  borderColor: "oklch(0.577 0.245 27.325 / 0.28)",
+                  backgroundColor: "oklch(0.577 0.245 27.325 / 0.07)",
+                  // Slightly deeper red for better contrast than 0.45
+                  color: "oklch(0.40 0.18 27)",
                 }}
               >
-                <TriangleAlert className="mt-px h-4 w-4 shrink-0" strokeWidth={2} />
+                <TriangleAlert
+                  className="mt-px h-4 w-4 shrink-0"
+                  strokeWidth={2}
+                />
                 <span>{error}</span>
               </div>
             )}
@@ -128,7 +152,9 @@ function LoginPageInner() {
               <Label
                 htmlFor="email"
                 className="text-sm font-medium"
-                style={{ color: "oklch(0.3 0.01 260)" }}
+                // Labels: firm dark-neutral, clearly distinct from
+                // placeholder and secondary text
+                style={{ color: "oklch(0.24 0.012 260)" }}
               >
                 {t("emailLabel")}
               </Label>
@@ -139,11 +165,15 @@ function LoginPageInner() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="h-10 rounded-lg border bg-white text-sm transition-colors placeholder:text-[oklch(0.65_0.01_260)] focus-visible:ring-2"
+                className="h-10 rounded-lg border bg-white text-sm transition-colors placeholder:text-[oklch(0.62_0.010_260)] focus-visible:ring-2"
                 style={
                   {
-                    borderColor: "oklch(0.88 0.005 260)",
-                    "--tw-ring-color": "oklch(0.62 0.16 162 / 0.2)",
+                    // More visible input border — easy to read as a
+                    // field without being heavy
+                    borderColor: "oklch(0.84 0.007 260)",
+                    // Focus ring: refined green at 25% — clear
+                    // affordance without glowing neon
+                    "--tw-ring-color": "oklch(0.56 0.14 162 / 0.25)",
                   } as React.CSSProperties
                 }
               />
@@ -155,14 +185,16 @@ function LoginPageInner() {
                 <Label
                   htmlFor="password"
                   className="text-sm font-medium"
-                  style={{ color: "oklch(0.3 0.01 260)" }}
+                  style={{ color: "oklch(0.24 0.012 260)" }}
                 >
                   {t("passwordLabel")}
                 </Label>
                 <Link
                   href="/forgot-password"
                   className="text-xs font-medium transition-colors hover:underline"
-                  style={{ color: "oklch(0.52 0.14 162)" }}
+                  // Deeper green link — sufficient contrast on white,
+                  // clearly interactive
+                  style={{ color: "oklch(0.46 0.13 162)" }}
                 >
                   {t("forgotPassword")}
                 </Link>
@@ -174,11 +206,11 @@ function LoginPageInner() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="h-10 rounded-lg border bg-white text-sm transition-colors placeholder:text-[oklch(0.65_0.01_260)] focus-visible:ring-2"
+                className="h-10 rounded-lg border bg-white text-sm transition-colors placeholder:text-[oklch(0.62_0.010_260)] focus-visible:ring-2"
                 style={
                   {
-                    borderColor: "oklch(0.88 0.005 260)",
-                    "--tw-ring-color": "oklch(0.62 0.16 162 / 0.2)",
+                    borderColor: "oklch(0.84 0.007 260)",
+                    "--tw-ring-color": "oklch(0.56 0.14 162 / 0.25)",
                   } as React.CSSProperties
                 }
               />
@@ -190,9 +222,13 @@ function LoginPageInner() {
               disabled={loading}
               className="mt-1 h-10 w-full rounded-lg text-sm font-semibold text-white transition-all disabled:opacity-60"
               style={{
+                // Refined emerald button: same hue as icon, reads
+                // with confidence against the white card. Hover/active
+                // handled by browser via opacity; loading gets a
+                // perceptibly dimmed green.
                 backgroundColor: loading
-                  ? "oklch(0.55 0.14 162)"
-                  : "oklch(0.62 0.16 162)",
+                  ? "oklch(0.60 0.12 162)"
+                  : "oklch(0.56 0.14 162)",
               }}
             >
               {loading ? t("signingIn") : t("signIn")}
@@ -203,7 +239,7 @@ function LoginPageInner() {
         {/* Footer link */}
         <p
           className="mt-5 text-center text-sm"
-          style={{ color: "oklch(0.52 0.015 260)" }}
+          style={{ color: "oklch(0.44 0.014 260)" }}
         >
           {t("noAccount")}{" "}
           <Link
@@ -213,7 +249,7 @@ function LoginPageInner() {
                 : "/signup"
             }
             className="font-medium transition-colors hover:underline"
-            style={{ color: "oklch(0.52 0.14 162)" }}
+            style={{ color: "oklch(0.46 0.13 162)" }}
           >
             {t("createAccount")}
           </Link>

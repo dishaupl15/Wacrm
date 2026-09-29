@@ -144,7 +144,7 @@ function MessageContent({
             className={cn(
               "mb-1 inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-[10px] font-medium",
               isAgent
-                ? "bg-primary-foreground/20 text-primary-foreground"
+                ? "bg-bubble-outbound-fg/15 text-bubble-outbound-fg dark:bg-bubble-outbound-fg/15 dark:text-bubble-outbound-fg"
                 : "bg-primary/20 text-primary",
             )}
           >
@@ -241,8 +241,8 @@ export function MessageBubble({
         className={cn(
           "relative rounded-2xl px-3 py-2",
           isAgent
-            ? "rounded-br-md bg-primary text-primary-foreground"
-            : "rounded-bl-md bg-muted text-foreground",
+            ? "rounded-br-md bg-bubble-outbound text-bubble-outbound-fg dark:bg-bubble-outbound dark:text-bubble-outbound-fg"
+            : "rounded-bl-md bg-bubble-inbound text-bubble-inbound-fg dark:bg-bubble-inbound dark:text-bubble-inbound-fg",
         )}
       >
         {reply && (
@@ -270,7 +270,7 @@ export function MessageBubble({
               glance. */}
           {message.ai_generated && (
             <span
-              className="inline-flex items-center gap-0.5 rounded-full bg-primary-foreground/20 px-1.5 py-px text-[9px] font-semibold uppercase leading-none tracking-wide text-primary-foreground"
+              className="inline-flex items-center gap-0.5 rounded-full bg-bubble-outbound-fg/15 px-1.5 py-px text-[9px] font-semibold uppercase leading-none tracking-wide text-bubble-outbound-fg dark:bg-bubble-outbound-fg/15 dark:text-bubble-outbound-fg"
               title={t("aiBadgeTitle")}
             >
               <Sparkles className="h-2.5 w-2.5" />
@@ -280,11 +280,9 @@ export function MessageBubble({
           <span
             className={cn(
               "text-[10px]",
-              // Outbound bubbles sit on the primary fill, so the
-              // timestamp must read against that (not the neutral
-              // foreground) — otherwise it goes low-contrast in light
-              // mode. Inbound bubbles use the muted surface.
-              isAgent ? "text-primary-foreground/70" : "text-muted-foreground",
+              isAgent
+                ? "text-bubble-outbound-meta dark:text-bubble-outbound-meta"
+                : "text-muted-foreground",
             )}
           >
             {time}

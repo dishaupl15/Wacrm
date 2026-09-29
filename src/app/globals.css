@@ -48,6 +48,15 @@
   --color-primary-hover: var(--primary-hover);
   --color-primary-soft: var(--primary-soft);
   --color-primary-soft-2: var(--primary-soft-2);
+  /* Chat bubble surface/text tokens — consumed by message-bubble.tsx.
+   * These are only defined in html[data-mode="light"]; dark mode falls
+   * back gracefully because the utilities won't match and the component
+   * uses explicit dark: variants instead. */
+  --color-bubble-outbound: var(--bubble-outbound);
+  --color-bubble-outbound-fg: var(--bubble-outbound-fg);
+  --color-bubble-outbound-meta: var(--bubble-outbound-meta);
+  --color-bubble-inbound: var(--bubble-inbound);
+  --color-bubble-inbound-fg: var(--bubble-inbound-fg);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -89,6 +98,18 @@
 :root,
 html[data-mode="dark"] {
   --background: oklch(0.12 0.018 165);
+  /* Chat bubble tokens — dark mode.
+   * Outbound: deep muted green in the same hue family as the light-mode
+   * bubble — sophisticated, clearly green, never black or neon.
+   * Inbound: a slightly green-tinted dark surface, distinct from the raw
+   * background and from the outbound bubble. These intentionally sit a
+   * step above the background in lightness so both bubbles have clear
+   * surface separation without needing hard borders. */
+  --bubble-outbound: oklch(0.28 0.06 162);
+  --bubble-outbound-fg: oklch(0.88 0.05 162);
+  --bubble-outbound-meta: oklch(0.65 0.05 162);
+  --bubble-inbound: oklch(0.22 0.025 162);
+  --bubble-inbound-fg: oklch(0.92 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.16 0.018 165);
   --card-2: oklch(0.195 0.02 165);
@@ -117,32 +138,53 @@ html[data-mode="dark"] {
 }
 
 html[data-mode="light"] {
-  --background: oklch(0.99 0.002 260);
-  --foreground: oklch(0.21 0.01 260);
+  /* Page canvas — slightly darker than before so white cards/panels
+   * visibly lift above it. Matches the login page background tone.
+   * Carries a faint warm-neutral tint; not gray-heavy. */
+  --background: oklch(0.945 0.006 240);
+  /* Richer primary text — matches login heading darkness */
+  --foreground: oklch(0.16 0.012 255);
+  /* Cards sit on white so they "lift" off the darker canvas */
   --card: oklch(1 0 0);
-  --card-2: oklch(0.985 0.002 260);
-  --card-foreground: oklch(0.21 0.01 260);
+  --card-2: oklch(0.982 0.003 240);
+  --card-foreground: oklch(0.16 0.012 255);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.21 0.01 260);
-  --secondary: oklch(0.967 0.003 260);
-  --secondary-foreground: oklch(0.25 0.01 260);
-  --muted: oklch(0.967 0.003 260);
-  --muted-foreground: oklch(0.52 0.015 260);
-  --accent: oklch(0.96 0.004 260);
-  --accent-foreground: oklch(0.25 0.01 260);
+  --popover-foreground: oklch(0.16 0.012 255);
+  --secondary: oklch(0.96 0.004 240);
+  --secondary-foreground: oklch(0.20 0.012 255);
+  --muted: oklch(0.955 0.005 240);
+  /* Matches login secondary text — clearly readable, not washed-out */
+  --muted-foreground: oklch(0.44 0.014 260);
+  --accent: oklch(0.95 0.006 240);
+  --accent-foreground: oklch(0.20 0.012 255);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0.004 260);
-  --input: oklch(0.922 0.004 260);
+  /* Slightly more defined border — matches login input/card direction */
+  --border: oklch(0.88 0.006 240);
+  --input: oklch(0.88 0.006 240);
   --chart-2: oklch(0.6 0.1 260);
   --chart-3: oklch(0.7 0.06 260);
   --chart-4: oklch(0.8 0.04 260);
   --chart-5: oklch(0.87 0.03 260);
   --radius: 0.625rem;
-  --sidebar: oklch(0.985 0.002 260);
-  --sidebar-foreground: oklch(0.21 0.01 260);
-  --sidebar-accent: oklch(0.96 0.004 260);
-  --sidebar-accent-foreground: oklch(0.25 0.01 260);
-  --sidebar-border: oklch(0.922 0.004 260);
+  /* Sidebar: pure white so it reads as a clean elevated panel */
+  --sidebar: oklch(1 0 0);
+  --sidebar-foreground: oklch(0.16 0.012 255);
+  --sidebar-accent: oklch(0.955 0.005 240);
+  --sidebar-accent-foreground: oklch(0.20 0.012 255);
+  --sidebar-border: oklch(0.88 0.006 240);
+  /* Chat bubble tokens — light mode only.
+   * Outbound (agent/bot): a soft green tint instead of the full
+   * primary fill. Clear identity without a heavy dark-green block.
+   * Inbound (customer): a slightly warmer off-white so it reads
+   * against the page background without looking like nothing.
+   * Dark mode intentionally omitted here — it falls back to the
+   * primary/muted tokens (see accent block) which work well on
+   * dark surfaces. */
+  --bubble-outbound: oklch(0.90 0.06 162);
+  --bubble-outbound-fg: oklch(0.20 0.04 162);
+  --bubble-outbound-meta: oklch(0.40 0.04 162);
+  --bubble-inbound: oklch(0.97 0.004 240);
+  --bubble-inbound-fg: oklch(0.16 0.012 255);
 }
 
 /* ---- ACCENT: primary color ---- */
@@ -162,17 +204,21 @@ html[data-theme="violet"] {
 }
 
 html[data-theme="emerald"] {
-  --primary: oklch(0.62 0.16 162);
-  --primary-foreground: oklch(0.16 0.02 162);
-  --primary-hover: oklch(0.68 0.15 162);
-  --primary-soft: oklch(0.62 0.16 162 / 0.12);
-  --primary-soft-2: oklch(0.62 0.16 162 / 0.22);
-  --ring: oklch(0.62 0.16 162);
-  --chart-1: oklch(0.62 0.16 162);
+  /* Refined Frontdesk green — matches the approved login page primary.
+   * Deeper and less saturated than the previous 0.62/0.16; reads as
+   * trustworthy against white rather than fresh/bright. White foreground
+   * ensures the bubble text and icon mark remain readable in all modes. */
+  --primary: oklch(0.56 0.14 162);
+  --primary-foreground: oklch(0.985 0 0);
+  --primary-hover: oklch(0.50 0.13 162);
+  --primary-soft: oklch(0.56 0.14 162 / 0.12);
+  --primary-soft-2: oklch(0.56 0.14 162 / 0.22);
+  --ring: oklch(0.56 0.14 162);
+  --chart-1: oklch(0.56 0.14 162);
   --chart-2: oklch(0.7 0.14 195);
-  --sidebar-primary: oklch(0.62 0.16 162);
-  --sidebar-primary-foreground: oklch(0.16 0.02 162);
-  --sidebar-ring: oklch(0.62 0.16 162);
+  --sidebar-primary: oklch(0.56 0.14 162);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-ring: oklch(0.56 0.14 162);
 }
 
 html[data-theme="cobalt"] {
@@ -223,7 +269,8 @@ html[data-theme="rose"] {
   }
   body {
     @apply bg-background text-foreground;
-    background-image: radial-gradient(circle at 10% 0%, color-mix(in oklab, var(--primary) 7%, transparent), transparent 28rem);
+    /* In light mode the gradient is very subtle; in dark it remains prominent. */
+    background-image: radial-gradient(circle at 10% 0%, color-mix(in oklab, var(--primary) 5%, transparent), transparent 28rem);
     background-attachment: fixed;
   }
   html {
@@ -241,7 +288,16 @@ html[data-theme="rose"] {
   scrollbar-width: thin;
 }
 
+/* Card border and shadow — light mode gets a crisper, lighter shadow;
+   dark mode retains the deeper shadow for depth against dark surfaces. */
 [data-slot="card"] {
-  border: 1px solid color-mix(in oklab, var(--border) 78%, transparent);
+  border: 1px solid color-mix(in oklab, var(--border) 80%, transparent);
+}
+
+html[data-mode="light"] [data-slot="card"] {
+  box-shadow: 0 1px 3px oklch(0 0 0 / 0.06), 0 4px 12px oklch(0 0 0 / 0.05);
+}
+
+html[data-mode="dark"] [data-slot="card"] {
   box-shadow: 0 14px 34px color-mix(in oklab, black 14%, transparent);
 }
